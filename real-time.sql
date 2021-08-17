@@ -1,0 +1,11 @@
+-- CREATE OR REPLACE STREAM for cleaned up referrer
+CREATE OR REPLACE STREAM "DESTINATION_SQL_STREAM" (
+    "body" VARCHAR(512),
+    "score" INTEGER);
+
+CREATE OR REPLACE PUMP "myPUMP" AS
+   INSERT INTO "DESTINATION_SQL_STREAM"
+      SELECT STREAM
+         "body", "score"
+      FROM "SOURCE_SQL_STREAM_001"
+      WHERE "score" > 10;
